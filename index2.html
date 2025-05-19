@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>샘플 React 앱 - Todo 리스트</title>
+</head>
+<body>
+  <div id="root2"></div>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function TodoApp() {
+      const [tasks, setTasks] = React.useState([]);
+      const [input, setInput] = React.useState('');
+      const addTask = () => {
+        const trimmed = input.trim();
+        if (trimmed) {
+          setTasks([...tasks, trimmed]);
+          setInput('');
+        }
+      };
+      return (
+        <div style={{ fontFamily: 'Arial, sans-serif', margin: '50px auto', maxWidth: '400px' }}>
+          <h1>Todo 리스트 샘플</h1>
+          <div style={{ display: 'flex', marginBottom: '10px' }}>
+            <input
+              type="text"
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              placeholder="할 일을 입력하세요"
+              style={{ flex: 1, padding: '8px' }}
+            />
+            <button onClick={addTask} style={{ marginLeft: '8px', padding: '8px 16px' }}>추가</button>
+          </div>
+          <ul>
+            {tasks.map((task, idx) => (
+              <li key={idx} style={{ padding: '4px 0' }}>{task}</li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<TodoApp />, document.getElementById('root2'));
+  </script>
+</body>
+</html>

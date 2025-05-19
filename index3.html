@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>샘플 React 앱 - 디지털 시계</title>
+</head>
+<body>
+  <div id="root3"></div>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function Clock() {
+      const [time, setTime] = React.useState(new Date());
+      React.useEffect(() => {
+        const timerId = setInterval(() => {
+          setTime(new Date());
+        }, 1000);
+        return () => clearInterval(timerId);
+      }, []);
+      const formatTime = date => date.toLocaleTimeString();
+      return (
+        <div style={{ fontFamily: 'Arial, sans-serif', textAlign: 'center', marginTop: '50px' }}>
+          <h1>디지털 시계</h1>
+          <p style={{ fontSize: '2rem' }}>{formatTime(time)}</p>
+        </div>
+      );
+    }
+    ReactDOM.render(<Clock />, document.getElementById('root3'));
+  </script>
+</body>
+</html>
