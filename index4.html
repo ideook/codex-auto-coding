@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>샘플 React 앱 - 랜덤 강아지 사진</title>
+</head>
+<body>
+  <div id="root4"></div>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function RandomDog() {
+      const [imageUrl, setImageUrl] = React.useState('');
+      const [breed, setBreed] = React.useState('');
+      const [loading, setLoading] = React.useState(false);
+
+      const fetchDog = () => {
+        setLoading(true);
+        fetch('https://dog.ceo/api/breeds/image/random')
+          .then(res => res.json())
+          .then(data => {
+            const url = data.message;
+            setImageUrl(url);
+            const parts = url.split('/');
+            const breedName = parts.length >= 5 ? parts[4] : '';
+            setBreed(breedName);
+            setLoading(false);
+          })
+          .catch(() => setLoading(false));
+      };
+
+      React.useEffect(() => { fetchDog(); }, []);
+
+      return (
+        <div style={{ fontFamily: 'Arial, sans-serif', textAlign: 'center', marginTop: '50px' }}>
+          <h1>랜덤 강아지 사진 샘플</h1>
+          <button onClick={fetchDog} style={{ padding: '10px 20px', marginBottom: '20px' }}>
+            새 강아지 사진 가져오기
+          </button>
+          {loading && <p>로딩 중...</p>}
+          {imageUrl && (
+            <div>
+              <img src={imageUrl} alt="Random Dog" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }} />
+              <p style={{ marginTop: '10px', color: '#555' }}>품종: {breed}</p>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.render(<RandomDog />, document.getElementById('root4'));
+  </script>
+</body>
+</html>
